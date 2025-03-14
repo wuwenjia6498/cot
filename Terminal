@@ -1,0 +1,3 @@
+# 打开内置终端（Ctrl+` 或 Cmd+`）
+git config --global user.name "wuwenjia6498"
+git config --global user.email "wwj13705746498@gmail.com" 
