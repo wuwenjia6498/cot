@@ -19,7 +19,7 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
-    opacity: 0;
+    opacity: 1 !important;
     transition: opacity 0.5s ease;
 }
 
@@ -72,8 +72,8 @@ main {
 }
 
 .feature-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .feature-card .icon {
@@ -111,6 +111,14 @@ footer {
     transform: scale(0.98);
 }
 
+/* 为功能卡片链接添加样式 */
+.feature-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 2.2rem;
@@ -126,5 +134,29 @@ footer {
     
     main {
         padding: 1rem;
+    }
+}
+
+/* 确保内容容器正确显示 */
+.converter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+    .converter-container {
+        flex-direction: row;
+    }
+    
+    .converter-box {
+        flex: 2;
+    }
+    
+    .info-section {
+        flex: 1;
     }
 } 

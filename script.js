@@ -161,4 +161,12 @@ document.querySelectorAll('details').forEach(details => {
             }, 10);
         }
     });
-}); 
+});
+
+// 示例：加载首页功能时准备调用API
+function prepareAPICall() {
+    // 您的API调用准备代码
+    console.log('准备调用后端API');
+}
+
+// 其他前端逻辑... 
