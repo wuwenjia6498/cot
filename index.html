@@ -49,6 +49,7 @@
                     </svg>
                 </button>
             </div>
+            
             <div class="todo-list" id="todo-list"></div>
             <button class="todo-expand" id="todo-expand" style="display: none;">
                 显示更多
@@ -61,17 +62,18 @@
 
     <main>
         <div class="features-grid">
-            <!-- 文件格式转换 -->
+            <!-- 调整图片尺寸 (新增) -->
             <div class="feature-card">
-                <a href="file-converter/index.html" class="feature-link">
+                <a href="image-resizer/index.html" class="feature-link">
                     <div class="icon">
                         <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#4A90E2"/>
-                            <path d="M16 16h16M16 24h16M16 32h10" stroke="white" stroke-width="2"/>
+                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#F59E0B"/>
+                            <path d="M14 20h4v-4h4M14 28h4v4h4M34 20h-4v-4h-4M34 28h-4v4h-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="18" y="18" width="12" height="12" rx="1" fill="#F59E0B" stroke="white" stroke-width="2"/>
                         </svg>
                     </div>
-                    <h2>文件格式转换</h2>
-                    <p>Word、Excel、PPT、PDF等格式互转，满足各类文档处理需求，简化工作流程。</p>
+                    <h2>调整图片尺寸</h2>
+                    <p>轻松缩放图片大小，批量处理多张图片，适应各种场景需求，让图片完美匹配您的使用场景。</p>
                 </a>
             </div>
 
@@ -159,14 +161,7 @@
         <p>© Copyright 老约翰效率办公桌. Created with ❤️</p>
     </footer>
 
-    <a href="http://localhost:3000/downloads/文件名" target="_blank">备用下载链接</a>
-
-    <form action="http://localhost:3000/api/convert" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="上传并下载">
-    </form>
-
     <!-- 添加脚本引用 -->
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html> 

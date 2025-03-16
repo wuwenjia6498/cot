@@ -171,93 +171,125 @@ function prepareAPICall() {
 
 // 其他前端逻辑...
 
-// 名言数据
-const quotes = [
-    {
-        text: "生活中不是缺少美，而是缺少发现美的眼睛。",
-        author: "罗丹"
-    },
-    {
-        text: "把事情做对很重要，但是找到要做的正确事情更重要。",
-        author: "彼得·德鲁克"
-    },
-    {
-        text: "种一棵树最好的时间是十年前，其次是现在。",
-        author: "中国谚语"
-    },
-    {
-        text: "简单是最终的复杂。",
-        author: "达芬奇"
-    },
-    {
-        text: "我们必须拥抱痛苦，别无选择。不过，我们可以选择拥抱的方式。",
-        author: "奥修"
-    },
-    {
-        text: "与其用华丽的外衣装饰自己，不如用知识武装自己。",
-        author: "伊索"
-    },
-    {
-        text: "真正的智慧是承认自己的无知。",
-        author: "苏格拉底"
-    },
-    {
-        text: "时间是一切财富中最宝贵的财富。",
-        author: "德奥弗拉斯多"
-    }
+// 保留本地名言作为后备数据，整合新添加的名言
+const localQuotes = [
+    { text: "生活中不是缺少美，而是缺少发现美的眼睛。", author: "罗丹" },
+    { text: "把事情做对很重要，但把正确的事情做更重要。", author: "彼得·德鲁克" },
+    { text: "简单是最终的复杂。", author: "达芬奇" },
+    { text: "优秀的设计是让复杂的东西变得简单。", author: "乔布斯" },
+    { text: "读书是在别人思想的帮助下，建立自己的思想。", author: "鲁巴金" },
+    { text: "一个不读书的人，和一个不使用工具的人没有本质区别。", author: "佚名" },
+    { text: "真正的书籍不是用来被阅读的，而是用来被思考的。", author: "卡莱尔" },
+    { text: "不去读书的人，当然永远不会发现，世界上还有另一个自己。", author: "村上春树" },
+    { text: "一本好书胜过一百个朋友，而一个好朋友等于一座图书馆。", author: "狄更斯" },
+    { text: "一本书是一个世界，而一个书架，就是无数个世界。", author: "科斯托兰尼" },
+    { text: "有些书应该浅尝辄止，有些书应该细嚼慢咽，而有些书则应该像蜂蜜一样细细品味。", author: "培根" },
+    { text: "一个人的气质里，藏着他走过的路、爱过的人和读过的书。", author: "三毛" },
+    { text: "阅读是一种孤独的旅程，目的地是更深层的自我。", author: "毛姆" },
+    { text: "每一本书，都是一个未曾见过的世界。", author: "J.K.罗琳" },
+    { text: "阅读是一种超能力，它让你在别人的经验里成长。", author: "比尔·盖茨" },
+    { text: "如果你想让世界变得更好，首先要让自己变得更聪明——从阅读开始。", author: "奥巴马" },
+    { text: "书不会改变世界，但读书的人会。", author: "玛丽安·摩尔" }
 ];
 
-// 当页面加载完成后执行
-document.addEventListener('DOMContentLoaded', () => {
+// 从后端获取名言
+async function fetchQuote() {
+    try {
+        const response = await fetch('http://localhost:3000/api/quote');
+        if (!response.ok) {
+            throw new Error('获取名言失败');
+        }
+        const { success, data, error } = await response.json();
+        if (!success) {
+            throw new Error(error);
+        }
+        return data;
+    } catch (error) {
+        console.error('API错误:', error);
+        // 返回一条本地名言作为后备
+        return localQuotes[Math.floor(Math.random() * localQuotes.length)];
+    }
+}
+
+// 更新名言显示
+async function updateQuote() {
     const quoteText = document.querySelector('.quote-text');
     const quoteAuthor = document.querySelector('.quote-author');
-    const refreshButton = document.querySelector('.refresh-quote');
-    
-    // 记录已显示过的名言索引
-    let usedIndices = new Set();
-    
-    // 获取随机名言
-    function getRandomQuote() {
-        // 如果所有名言都已显示过，则重置记录
-        if (usedIndices.size >= quotes.length) {
-            usedIndices.clear();
-        }
+    const refreshButton = document.querySelector('.refresh-quote svg');
+
+    // 添加加载状态
+    quoteText.style.opacity = '0.5';
+    quoteText.textContent = '正在获取新的名言...';
+    quoteAuthor.style.opacity = '0';
+    refreshButton.style.transform = 'rotate(360deg)';
+
+    try {
+        const quote = await fetchQuote();
         
-        // 获取未使用过的名言
-        let availableQuotes = quotes.filter((_, index) => !usedIndices.has(index));
-        let randomIndex = Math.floor(Math.random() * availableQuotes.length);
-        let selectedQuote = availableQuotes[randomIndex];
-        
-        // 记录已使用的名言索引
-        usedIndices.add(quotes.indexOf(selectedQuote));
-        
-        return selectedQuote;
-    }
-    
-    // 更新显示的名言
-    function updateQuote() {
-        const quote = getRandomQuote();
-        quoteText.textContent = quote.text;
-        quoteAuthor.textContent = `— ${quote.author}`;
-    }
-    
-    // 点击刷新按钮时更新名言
-    refreshButton.addEventListener('click', () => {
-        // 添加旋转动画
-        refreshButton.style.transition = 'transform 0.3s ease';
-        refreshButton.style.transform = 'rotate(180deg)';
-        
-        // 更新名言
-        updateQuote();
-        
-        // 重置旋转
+        // 更新内容
         setTimeout(() => {
-            refreshButton.style.transform = 'none';
+            quoteText.textContent = quote.text;
+            quoteAuthor.textContent = `— ${quote.author}`;
+            
+            // 恢复正常显示
+            quoteText.style.opacity = '1';
+            quoteAuthor.style.opacity = '1';
         }, 300);
-    });
-    
-    // 初始化显示一条名言
+
+    } catch (error) {
+        console.error('更新名言失败:', error);
+        // 使用本地名言
+        const fallbackQuote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
+        quoteText.textContent = fallbackQuote.text;
+        quoteAuthor.textContent = `— ${fallbackQuote.author}`;
+        quoteText.style.opacity = '1';
+        quoteAuthor.style.opacity = '1';
+    } finally {
+        // 重置刷新按钮动画
+        setTimeout(() => {
+            refreshButton.style.transform = 'rotate(0deg)';
+        }, 300);
+    }
+}
+
+// 防抖函数
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+// 页面加载完成后初始化
+window.addEventListener('DOMContentLoaded', () => {
+    // 初始显示一条名言
     updateQuote();
+
+    // 为刷新按钮添加防抖的点击事件
+    const refreshButton = document.querySelector('.refresh-quote');
+    if (refreshButton) {
+        const debouncedUpdate = debounce(updateQuote, 1000);
+        refreshButton.addEventListener('click', debouncedUpdate);
+    }
+
+    // 添加样式
+    const style = document.createElement('style');
+    style.textContent = `
+        .quote-text, .quote-author {
+            transition: opacity 0.3s ease;
+        }
+        .refresh-quote svg {
+            transition: transform 0.3s ease;
+        }
+        .refresh-quote {
+            cursor: pointer;
+        }
+        .refresh-quote:hover {
+            opacity: 0.8;
+        }
+    `;
+    document.head.appendChild(style);
 });
 
 // 添加时间格式化函数
@@ -277,7 +309,7 @@ function isToday(timestamp) {
            date.getFullYear() === today.getFullYear();
 }
 
-// 添加截止时间检查和提醒功能
+// 添加截止时间检查功能（移除通知逻辑）
 function checkDeadlines() {
     const now = new Date().getTime();
     const todos = JSON.parse(localStorage.getItem('todos') || '[]');
@@ -287,17 +319,10 @@ function checkDeadlines() {
             const timeLeft = todo.deadline - now;
             const hoursLeft = timeLeft / (1000 * 60 * 60);
             
-            // 如果距离截止时间小于1小时且未完成
+            // 如果距离截止时间小于1小时且未完成，只标记为已通知
+            // 不再发送系统通知
             if (hoursLeft > 0 && hoursLeft <= 1) {
-                // 发送系统通知（如果浏览器支持）
-                if (Notification.permission === "granted") {
-                    new Notification("待办事项即将到期", {
-                        body: `"${todo.text}" 将在1小时内到期`,
-                        icon: "/favicon.ico"
-                    });
-                    // 标记为已通知
-                    todo.notified = true;
-                }
+                todo.notified = true;
             }
         }
     });
@@ -578,12 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始渲染
     renderTodos();
     
-    // 在页面加载时请求通知权限
-    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-        Notification.requestPermission();
-    }
-    
-    // 每分钟检查一次截止时间
+    // 仍保留检查截止时间功能，但已移除通知
     setInterval(checkDeadlines, 60000);
 });
 
@@ -625,4 +645,7 @@ function importTodos(event) {
         }
     };
     reader.readAsText(file);
-} 
+}
+
+// 测试代码是否正常加载
+console.log('脚本已加载');

@@ -346,6 +346,7 @@ footer {
     align-items: center;
     justify-content: center;  /* 添加内容居中 */
     gap: 1rem;
+    position: relative;
 }
 
 .quote-icon {
@@ -362,6 +363,7 @@ footer {
     font-size: 0.95rem;
     color: var(--text-color);
     line-height: 1.5;
+    transition: opacity 0.3s ease;
 }
 
 .quote-text {
@@ -394,6 +396,14 @@ footer {
     transform: rotate(180deg);  /* 添加旋转动画 */
 }
 
+.refresh-quote svg {
+    transition: transform 0.3s ease;
+}
+
+.refresh-quote.loading svg {
+    transform: rotate(360deg);
+}
+
 /* 响应式设计调整 */
 @media (max-width: 768px) {
     .quote-strip-content {
@@ -418,6 +428,39 @@ footer {
         margin-top: 3rem;  /* 移动端减小间距 */
         margin-bottom: 3rem;
     }
+}
+
+/* 添加淡入淡出效果 */
+.quote-content.loading {
+    opacity: 0.5;
+}
+
+/* 添加到现有的 CSS 中 */
+.quote-strip-content {
+    position: relative;
+}
+
+.quote-strip-content.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+    display: none;
 }
 
 /* 待办事项区域样式 */
