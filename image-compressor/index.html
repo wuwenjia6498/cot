@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片压缩 - 老约翰效率办公桌</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="back-link">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"/>
+                </svg>
+                返回主页
+            </a>
+        </nav>
+        <h1>图片压缩工具</h1>
+        <p class="subtitle">在保持图片质量的同时减小文件体积，支持JPG、PNG等格式</p>
+    </header>
+
+    <main class="container">
+        <div class="tool-container">
+            <div class="upload-section" id="dropZone">
+                <svg width="64" height="64" viewBox="0 0 64 64">
+                    <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4zm0 50c-12.15 0-22-9.85-22-22s9.85-22 22-22 22 9.85 22 22-9.85 22-22 22zm-3-33v14h-8l11 11 11-11h-8V21h-6z" fill="#4A90E2"/>
+                </svg>
+                <h2>拖拽图片到这里或点击上传</h2>
+                <p class="upload-hint">支持JPG、PNG等常见图片格式</p>
+                <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            </div>
+
+            <div class="settings-section">
+                <div class="quality-control">
+                    <label for="quality">压缩质量：<span id="qualityValue">80%</span></label>
+                    <input type="range" id="quality" min="0" max="100" value="80">
+                </div>
+                <div class="max-width-control">
+                    <label for="maxWidth">最大宽度：<span id="maxWidthValue">1920px</span></label>
+                    <input type="range" id="maxWidth" min="100" max="4000" value="1920" step="100">
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection">
+                <div class="preview-container">
+                    <h3>原始图片</h3>
+                    <div class="image-info" id="originalInfo">
+                        <p>尺寸：- x -</p>
+                        <p>大小：-</p>
+                    </div>
+                    <div class="image-preview">
+                        <img id="originalPreview" alt="原图预览">
+                    </div>
+                </div>
+                <div class="preview-container">
+                    <h3>压缩后</h3>
+                    <div class="image-info" id="compressedInfo">
+                        <p>尺寸：- x -</p>
+                        <p>大小：-</p>
+                    </div>
+                    <div class="image-preview">
+                        <img id="compressedPreview" alt="压缩后预览">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="downloadBtn" class="primary-button" disabled>
+                    <svg width="20" height="20" viewBox="0 0 20 20">
+                        <path d="M10 2v8.5l3-3 1.4 1.4L10 13.3 5.6 8.9 7 7.5l3 3V2h2zm-8 14h16v2H2v-2z" fill="currentColor"/>
+                    </svg>
+                    下载压缩后的图片
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 老约翰效率办公桌. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

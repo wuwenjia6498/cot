@@ -1,0 +1,567 @@
+/* 图片转换工具样式 - 这是整个图片转换应用的样式表文件 */
+
+/* 颜色变量和基础样式定义 */
+:root {
+    --primary-color: #3474D4;    /* 主色调 - 蓝色，用于主要按钮和高亮元素 */
+    --secondary-color: #47B881;  /* 次要色调 - 绿色，用于成功状态和辅助元素 */
+    --accent-color: #F7B500;     /* 强调色 - 黄色，用于警告和提示 */
+    --danger-color: #E74C3C;     /* 危险色 - 红色，用于错误和删除操作 */
+    --background-color: #f8f9fc; /* 背景色 - 浅灰蓝色，整体页面背景 */
+    --card-background: #ffffff;  /* 卡片背景色 - 白色，用于内容区块 */
+    --text-color: #2c3e50;       /* 文本颜色 - 深灰色，主要文字 */
+    --border-color: #e1e4e8;     /* 边框颜色 - 浅灰色，分隔线和边框 */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* 阴影效果 - 为卡片和元素提供立体感 */
+    --transition: all 0.3s ease; /* 过渡效果 - 用于平滑状态变化 */
+}
+
+/* 基础样式在HTML中已内联 */
+
+/* 主容器布局 - 设置整体页面结构 */
+.converter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;                /* 块间距离 */
+    max-width: 1200px;        /* 最大宽度限制 */
+    margin: 0 auto;           /* 居中显示 */
+    padding: 2rem;            /* 内边距 */
+}
+
+/* 转换器盒子 - 主要功能区域的容器 */
+.converter-box {
+    background-color: var(--card-background);
+    border-radius: 16px;      /* 圆角效果 */
+    padding: 2rem;            /* 内部间距 */
+    box-shadow: var(--shadow); /* 阴影效果增加立体感 */
+    width: 100%;              /* 占满容器宽度 */
+}
+
+/* 信息区域样式 - 用于展示帮助信息的部分 */
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;              /* 信息卡片之间的间距 */
+}
+
+/* 信息卡片 - 每个独立的信息块 */
+.info-card {
+    background-color: var(--card-background);
+    border-radius: 16px;      /* 圆角边框 */
+    padding: 1.5rem;          /* 内部间距 */
+    box-shadow: var(--shadow); /* 阴影效果 */
+}
+
+/* 信息卡片标题 */
+.info-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color); /* 使用主色调突出标题 */
+}
+
+/* 信息卡片列表样式 */
+.info-card ul {
+    padding-left: 1.2rem;     /* 列表缩进 */
+}
+
+/* 信息卡片列表项样式 */
+.info-card li {
+    margin-bottom: 0.8rem;    /* 列表项间距 */
+    font-size: 1rem;
+}
+
+/* 上传区域样式 - 拖放或点击上传图片的区域 */
+.upload-area {
+    border: 2px dashed var(--border-color); /* 虚线边框提示可拖放 */
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;       /* 相对定位用于文件输入定位 */
+    cursor: pointer;          /* 鼠标指针样式 */
+    transition: var(--transition); /* 状态变化动画 */
+}
+
+/* 上传区域悬停效果 */
+.upload-area:hover {
+    border-color: var(--primary-color); /* 悬停时边框变为主色调 */
+    background-color: rgba(52, 116, 212, 0.05); /* 轻微背景色变化 */
+}
+
+/* 隐藏文件输入但保持可访问性 */
+.upload-area input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;              /* 透明度为0以隐藏但仍可点击 */
+    cursor: pointer;
+}
+
+/* 上传图标样式 */
+.upload-icon {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* 上传区域标题 */
+.upload-area h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+/* 上传区域描述文字 */
+.upload-area p {
+    color: #666;
+    margin: 0;
+}
+
+/* 文件信息区域 - 显示已选择的图片信息 */
+.file-info {
+    margin-top: 2rem;
+}
+
+/* 文件信息标题 */
+.file-info h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+/* 已选择图片网格布局 */
+.selected-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 响应式网格布局 */
+    gap: 1rem;               /* 图片之间的间距 */
+    margin-bottom: 1.5rem;
+}
+
+/* 图片预览容器 */
+.image-preview {
+    position: relative;       /* 相对定位用于叠加内容 */
+    border-radius: 8px;
+    overflow: hidden;         /* 防止图片溢出圆角 */
+    box-shadow: var(--shadow);
+}
+
+/* 预览图片样式 */
+.image-preview img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;        /* 保持图片比例填充容器 */
+    display: block;
+}
+
+/* 图片名称显示 - 叠加在图片底部 */
+.image-preview .image-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7); /* 半透明背景 */
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    text-overflow: ellipsis;  /* 文本溢出处理 */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* 删除图片按钮 - 右上角X按钮 */
+.image-preview .remove-image {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--danger-color);
+    border: none;
+    border-radius: 50%;       /* 圆形按钮 */
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* 居中X符号 */
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 转换选项区域 - 图片格式、质量等设置 */
+.conversion-options {
+    margin-top: 2rem;
+}
+
+/* 转换选项标题 */
+.conversion-options h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+/* 格式选项布局 */
+.format-options {
+    display: flex;
+    flex-wrap: wrap;          /* 允许在小屏幕上换行 */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 单个格式选项 */
+.format-option {
+    position: relative;
+    cursor: pointer;
+}
+
+/* 隐藏原始单选按钮 */
+.format-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* 自定义格式名称显示 */
+.format-name {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+/* 选中状态的格式选项样式 */
+.format-option input[type="radio"]:checked + .format-name {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 质量调整滑块容器 */
+.quality-option {
+    margin: 20px 0;
+}
+
+/* 质量滑块标签 */
+.quality-option label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 自定义滑块样式 */
+.quality-option input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #e1e4e8;
+    outline: none;
+    -webkit-appearance: none; /* 去除默认样式 */
+}
+
+/* 滑块拖动按钮样式 */
+.quality-option input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;       /* 圆形拖动按钮 */
+    background: var(--primary-color);
+    cursor: pointer;
+}
+
+/* 质量数值显示 */
+.quality-option input[type="range"] + span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-weight: 600;
+}
+
+/* 水印选项区域 - 添加水印的设置 */
+.watermark-options {
+    margin: 25px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+}
+
+/* 水印选项标题 */
+.watermark-options h4 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 水印文本输入区域 */
+.watermark-text-input {
+    margin-bottom: 15px;
+}
+
+/* 水印文本输入标签 */
+.watermark-text-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 水印文本输入框 */
+.watermark-text-input input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* 水印位置选择区域 */
+.watermark-position {
+    margin-bottom: 15px;
+}
+
+/* 水印位置标签 */
+.watermark-position label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 位置选项布局 */
+.position-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* 单个位置选项 */
+.position-option {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 位置选项悬停效果 */
+.position-option:hover {
+    border-color: #3474D4;
+}
+
+/* 选中的位置选项样式 */
+.position-option.selected,
+.position-option input:checked + span {
+    background-color: #3474D4;
+    color: white;
+    border-color: #3474D4;
+}
+
+/* 隐藏位置选项原始输入 */
+.position-option input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* 位置选项文本样式 */
+.position-option span {
+    font-size: 14px;
+}
+
+/* 水印透明度选项 */
+.watermark-opacity {
+    margin-bottom: 10px;
+}
+
+/* 水印透明度标签 */
+.watermark-opacity label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 按钮基础样式 */
+.action-button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+
+/* 主要按钮样式 - 用于主要操作如转换 */
+.action-button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* 主要按钮悬停效果 */
+.action-button.primary:hover {
+    background-color: #2860B8;
+}
+
+/* 次要按钮样式 - 用于辅助操作如取消 */
+.action-button.secondary {
+    background-color: #f1f2f5;
+    color: var(--text-color);
+}
+
+/* 次要按钮悬停效果 */
+.action-button.secondary:hover {
+    background-color: #e5e7ea;
+}
+
+/* 危险按钮样式 - 用于删除等危险操作 */
+.action-button.danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* 危险按钮悬停效果 */
+.action-button.danger:hover {
+    background-color: #c0392b;
+}
+
+/* 进度条区域 - 显示转换进度 */
+.conversion-progress {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* 进度条标题 */
+.conversion-progress h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 进度条容器 */
+.progress-bar {
+    height: 12px;
+    background-color: #f1f2f5;
+    border-radius: 6px;
+    overflow: hidden;        /* 确保进度填充不超出容器 */
+    margin-bottom: 1rem;
+}
+
+/* 进度条填充 - 随进度增长宽度 */
+.progress-fill {
+    height: 100%;
+    width: 0;                /* 初始宽度为0，通过JS动态更新 */
+    background-color: var(--primary-color);
+    transition: width 0.3s ease; /* 平滑过渡 */
+}
+
+/* 转换结果区域 - 显示处理后的图片 */
+.conversion-result {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+/* 结果图标 - 转换成功或失败图标 */
+.result-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    color: var(--secondary-color);
+}
+
+/* 结果标题 */
+.conversion-result h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 结果文件网格布局 */
+.result-files {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* 结果文件容器 */
+.result-file {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+/* 结果文件图片 */
+.result-file img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+/* 结果文件信息 - 叠加在图片底部 */
+.result-file .file-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem;
+    margin-top: 0;
+}
+
+/* 结果文件名称 */
+.result-file .file-info .file-name {
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;        /* 文件名过长时处理 */
+}
+
+/* 结果文件大小 */
+.result-file .file-info .file-size {
+    font-size: 0.7rem;
+    opacity: 0.8;            /* 半透明效果 */
+}
+
+/* 结果操作按钮布局 */
+.result-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* 通用隐藏类 - 用于JS控制元素显隐 */
+.hidden {
+    display: none;
+}
+
+/* 响应式设计 - 适配大屏幕 */
+@media (min-width: 768px) {
+    .converter-container {
+        flex-direction: row;  /* 大屏幕下改为横向布局 */
+    }
+    
+    .converter-box {
+        flex: 2;             /* 转换器区域占据更多空间 */
+    }
+    
+    .info-section {
+        flex: 1;             /* 信息区域占较少空间 */
+    }
+}
+
+/* 响应式设计 - 适配小屏幕 */
+@media (max-width: 768px) {
+    .format-options {
+        gap: 0.5rem;         /* 减小选项间距 */
+    }
+    
+    .format-name {
+        padding: 0.6rem 1rem; /* 减小内边距 */
+        font-size: 0.9rem;    /* 减小字体 */
+    }
+    
+    .result-actions {
+        flex-direction: column; /* 按钮改为垂直排列 */
+    }
+} 

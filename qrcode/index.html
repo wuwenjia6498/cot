@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码工具 - 老约翰效率办公桌</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 内联一个极简QRCode库，作为备用 -->
+    <script>
+    // 极简备用QRCode库，确保基本功能可用
+    if (typeof QRCode === 'undefined') {
+        window.QRCode = function(el, options) {
+            this.el = typeof el === 'string' ? document.getElementById(el) : el;
+            this.options = options || {};
+            this.clear();
+            if (options && options.text) {
+                this.makeCode(options.text);
+            }
+        };
+        
+        QRCode.prototype.clear = function() {
+            this.el.innerHTML = '';
+        };
+        
+        QRCode.prototype.makeCode = function(text) {
+            const canvas = document.createElement('canvas');
+            const size = this.options.width || 200;
+            canvas.width = size;
+            canvas.height = size;
+            this.el.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = this.options.colorLight || '#FFFFFF';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 简单绘制QR码样式
+            this._drawSimpleQR(ctx, text, size);
+        };
+        
+        QRCode.prototype._drawSimpleQR = function(ctx, text, size) {
+            ctx.fillStyle = this.options.colorDark || '#000000';
+            
+            // 绘制QR码样式的网格
+            const cellSize = Math.floor(size / 25);
+            for (let i = 0; i < 25; i++) {
+                for (let j = 0; j < 25; j++) {
+                    if ((i < 7 && j < 7) || 
+                        (i < 7 && j > 17) || 
+                        (i > 17 && j < 7) || 
+                        (Math.random() > 0.7)) {
+                        ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                    }
+                }
+            }
+            
+            // 添加QR码定位角
+            ctx.fillStyle = this.options.colorLight || '#FFFFFF';
+            ctx.fillRect(cellSize, cellSize, cellSize * 5, cellSize * 5);
+            ctx.fillRect(size - cellSize * 6, cellSize, cellSize * 5, cellSize * 5);
+            ctx.fillRect(cellSize, size - cellSize * 6, cellSize * 5, cellSize * 5);
+            
+            ctx.fillStyle = this.options.colorDark || '#000000';
+            ctx.fillRect(cellSize * 2, cellSize * 2, cellSize * 3, cellSize * 3);
+            ctx.fillRect(size - cellSize * 5, cellSize * 2, cellSize * 3, cellSize * 3);
+            ctx.fillRect(cellSize * 2, size - cellSize * 5, cellSize * 3, cellSize * 3);
+            
+            // 添加文本提示(这是模拟QR码)
+            ctx.font = Math.floor(size/20) + 'px Arial';
+            ctx.fillStyle = this.options.colorDark || '#000000';
+            ctx.textAlign = 'center';
+            ctx.fillText('模拟二维码', size/2, size/2);
+            ctx.font = Math.floor(size/30) + 'px Arial';
+            ctx.fillText('请加载完整库', size/2, size/2 + size/20);
+        };
+        
+        QRCode.CorrectLevel = {
+            L: 1, M: 0, Q: 3, H: 2
+        };
+        
+        console.warn('使用备用QRCode库 - 功能有限');
+    }
+    </script>
+</head>
+<body>
+    <div class="gradient-header">
+        <div class="navigation">
+            <a href="../index.html" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+                返回主页
+            </a>
+        </div>
+        <h1>二维码工具</h1>
+        <p class="subtitle">快速生成和解析二维码，提升信息分享效率</p>
+    </div>
+
+    <div class="main-content">
+        <div class="content-grid">
+            <!-- 工具主体区域 -->
+            <div class="qrcode-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="generate">生成二维码</button>
+                    <button class="tab-btn" data-tab="scan">解析二维码</button>
+                </div>
+
+                <!-- 生成二维码面板 -->
+                <div class="tab-content active" id="generate-panel">
+                    <div class="qrcode-form">
+                        <div class="form-group">
+                            <label for="qr-content">输入内容</label>
+                            <textarea id="qr-content" placeholder="输入要生成二维码的文本、网址或联系信息"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="qr-size">尺寸</label>
+                                <select id="qr-size">
+                                    <option value="128">小 (128px)</option>
+                                    <option value="200" selected>中 (200px)</option>
+                                    <option value="300">大 (300px)</option>
+                                    <option value="400">超大 (400px)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group color-selector">
+                                <label for="qr-fg-color">前景色 <small>(二维码颜色)</small></label>
+                                <input type="color" id="qr-fg-color" value="#000000">
+                            </div>
+
+                            <div class="form-group color-selector">
+                                <label for="qr-bg-color">背景色 <small>(二维码底色)</small></label>
+                                <input type="color" id="qr-bg-color" value="#FFFFFF">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="error-correction">容错率</label>
+                            <select id="error-correction">
+                                <option value="L">低 (7%)</option>
+                                <option value="M" selected>中 (15%)</option>
+                                <option value="Q">高 (25%)</option>
+                                <option value="H">超高 (30%)</option>
+                            </select>
+                            <div class="help-text">容错率越高，二维码可靠性越好，但图案越复杂</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>添加Logo <small>(会显示在二维码中心)</small></label>
+                            <div class="file-upload">
+                                <input type="file" id="logo-file" accept="image/*">
+                                <label for="logo-file" class="file-upload-btn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    选择Logo图片
+                                </label>
+                                <button id="remove-logo" class="secondary-button" style="display: none;">删除Logo</button>
+                            </div>
+                            <div class="help-text">添加Logo会使二维码更有辨识度，但请确保内容简短或增加容错率</div>
+                        </div>
+
+                        <div class="button-row">
+                            <button id="generate-btn" class="primary-button">生成二维码</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成结果显示区域 -->
+                    <div class="qrcode-result" id="qrcode-result">
+                        <div class="empty-state">
+                            <svg width="64" height="64" viewBox="0 0 48 48" class="empty-icon">
+                                <rect x="12" y="12" width="10" height="10" fill="#3182CE"/>
+                                <rect x="26" y="12" width="10" height="10" fill="#3182CE"/>
+                                <rect x="12" y="26" width="10" height="10" fill="#3182CE"/>
+                                <path d="M26 26h10v10h-10z" fill="none" stroke="#3182CE" stroke-width="2"/>
+                            </svg>
+                            <p>生成的二维码将显示在这里</p>
+                        </div>
+                        
+                        <!-- 二维码显示区域 -->
+                        <div id="qrcode-display" style="display: none;"></div>
+                        
+                        <!-- 新增：导出区域 -->
+                        <div id="export-area" style="display: none; margin-top: 2rem; text-align: center;">
+                            <h3 style="margin-bottom: 1rem;">您的二维码</h3>
+                            <div id="exportable-image-container" class="exportable-container">
+                                <!-- 这里将插入可导出的图像 -->
+                            </div>
+                            
+                            <!-- 添加隐藏的iframe用于下载 -->
+                            <iframe id="download-frame" style="display:none;"></iframe>
+                            
+                            <div class="export-info" style="margin-top: 1rem; font-size: 0.9rem; color: var(--dark-gray);">
+                                <p>文件名: <span id="export-filename">qrcode.png</span></p>
+                                <div class="export-actions" style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                                    <!-- 修改下载按钮为普通按钮 -->
+                                    <button id="download-image-btn" class="action-button download-button">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        保存图片
+                                    </button>
+                                    <button id="copy-image-btn" class="action-button">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
+                                        复制到剪贴板
+                                    </button>
+                                </div>
+                                
+                                <!-- 备用下载链接 -->
+                                <div id="backup-download-links" style="margin-top: 1rem;">
+                                    <p style="margin-bottom: 0.5rem;">如果按钮不起作用，请尝试这些备用方式：</p>
+                                    <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <a id="direct-download-link" href="#" download="qrcode.png" target="_blank" class="backup-link">直接下载</a>
+                                        <a id="new-tab-link" href="#" target="_blank" class="backup-link">在新标签页打开</a>
+                                        <a id="image-view-link" href="#" target="_blank" class="backup-link" onclick="return showImageInLightbox();">查看大图</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="export-tips" style="margin-top: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: var(--radius-md); text-align: left;">
+                                <h4 style="margin-top: 0; font-size: 1rem;">保存二维码的方法:</h4>
+                                <ol style="margin-left: 1.5rem; margin-bottom: 0; padding-left: 0;">
+                                    <li>点击"<strong>保存图片</strong>"按钮直接下载</li>
+                                    <li>右键点击二维码 → 选择"<strong>图片另存为...</strong>"</li>
+                                    <li>使用上方的<strong>备用下载链接</strong>尝试其他下载方式</li>
+                                    <li>点击"<strong>复制到剪贴板</strong>"，然后在其他应用中粘贴</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <!-- 添加灯箱效果查看大图 -->
+                        <div id="image-lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; flex-direction: column;">
+                            <div style="position: relative; max-width: 90%; max-height: 90%;">
+                                <img id="lightbox-image" style="max-width: 100%; max-height: 80vh; border: 2px solid white;">
+                                <div style="color: white; margin-top: 1rem; text-align: center;">
+                                    <p>右键点击图片选择"图片另存为..."即可保存</p>
+                                    <button id="close-lightbox" style="margin-top: 1rem; padding: 0.5rem 1rem; background: white; border: none; border-radius: 4px; cursor: pointer;">关闭</button>
+                                    <a id="lightbox-download" href="#" download="qrcode.png" style="display: inline-block; margin-left: 1rem; padding: 0.5rem 1rem; background: #3182CE; color: white; border: none; border-radius: 4px; text-decoration: none;">下载图片</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 下载按钮区域 -->
+                        <div class="result-actions" style="display: none;">
+                            <button id="download-png" class="action-button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                下载PNG
+                            </button>
+                            <button id="download-svg" class="action-button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                下载SVG
+                            </button>
+                            <button id="download-pdf" class="action-button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                下载PDF
+                            </button>
+                        </div>
+                        
+                        <!-- 右键菜单提示 -->
+                        <div class="manual-download-tips" style="margin-top: 1rem; font-size: 0.9rem; color: var(--dark-gray);">
+                            提示：如果下载按钮不起作用，请使用上方的导出区域
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 解析二维码面板 -->
+                <div class="tab-content" id="scan-panel">
+                    <div class="upload-area">
+                        <div class="upload-wrapper" id="upload-wrapper">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>拖放二维码图片到这里，或</p>
+                            <div class="file-upload">
+                                <input type="file" id="qr-scan-file" accept="image/*">
+                                <label for="qr-scan-file" class="file-upload-btn">选择图片</label>
+                            </div>
+                        </div>
+                        <div class="video-scan-option">
+                            <p>或使用摄像头扫描</p>
+                            <button id="start-camera" class="primary-button">打开摄像头</button>
+                            <div id="camera-container" style="display: none;">
+                                <video id="camera-preview" autoplay playsinline></video>
+                                <button id="close-camera" class="secondary-button">关闭摄像头</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 解析结果显示区域 -->
+                    <div class="scan-result" id="scan-result" style="display: none;">
+                        <h3>识别结果</h3>
+                        <div class="result-content" id="result-content"></div>
+                        <div class="result-type" id="result-type"></div>
+                        <div class="result-actions">
+                            <button id="copy-result" class="action-button">复制内容</button>
+                            <button id="open-link" class="action-button" style="display: none;">打开链接</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能说明区域 -->
+            <div class="instructions-section">
+                <h2>使用说明</h2>
+                <div class="instructions-content">
+                    <h3>生成二维码</h3>
+                    <ol class="instruction-list">
+                        <li>输入文本、网址、联系方式等内容</li>
+                        <li>选择二维码尺寸和颜色</li>
+                        <li>可选择添加Logo</li>
+                        <li>点击"生成二维码"按钮</li>
+                        <li>下载需要的格式</li>
+                    </ol>
+
+                    <h3>解析二维码</h3>
+                    <ol class="instruction-list">
+                        <li>上传包含二维码的图片文件</li>
+                        <li>或使用摄像头扫描二维码</li>
+                        <li>查看解析结果</li>
+                        <li>可复制内容或直接打开链接</li>
+                    </ol>
+                </div>
+                
+                <div class="features-list">
+                    <h3>工具特点</h3>
+                    <ul>
+                        <li>快速生成高质量二维码</li>
+                        <li>支持自定义尺寸、颜色和Logo</li>
+                        <li>提供多种下载格式</li>
+                        <li>便捷解析识别二维码内容</li>
+                        <li>支持摄像头实时扫描</li>
+                        <li>完全在本地运行，保护隐私</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用技巧部分 -->
+        <div class="tips-section">
+            <h2>二维码使用小技巧</h2>
+            <div class="tips-container">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3182CE" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>高对比度更易扫描</h3>
+                        <p>选择对比度高的前景色和背景色，可以提高二维码的扫描成功率。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3182CE" stroke-width="2">
+                            <path d="M2 12h6"></path>
+                            <path d="M16 12h6"></path>
+                            <path d="M8 18v-6H6a2 2 0 0 1 0-4h2v-2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2h2a2 2 0 0 1 0 4h-2v6"></path>
+                            <path d="M18 18a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2"></path>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>适当添加Logo</h3>
+                        <p>二维码可以添加Logo并保持可扫描性，但Logo不宜过大，建议不超过二维码面积的25%。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3182CE" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <path d="M8 12h8"></path>
+                            <path d="M12 8v8"></path>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>内容简洁清晰</h3>
+                        <p>二维码内容越长，生成的码越复杂，更难识别。尽量保持内容简短或使用短链接。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3182CE" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                            <line x1="6" y1="1" x2="6" y2="4"></line>
+                            <line x1="10" y1="1" x2="10" y2="4"></line>
+                            <line x1="14" y1="1" x2="14" y2="4"></line>
+                        </svg>
+                    </div>
+                    <div class="tip-content">
+                        <h3>打印效果考虑</h3>
+                        <p>如需打印，建议选择更高的容错率，并预留足够边距，确保打印后依然可被正确扫描。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 老约翰效率办公桌. Created with ❤️</p>
+    </footer>
+
+    <!-- 引入本地QR码生成和解析库 -->
+    <script src="qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script>
+        // 检查QR码库是否加载成功
+        window.addEventListener('load', function() {
+            if (typeof QRCode === 'undefined' || !QRCode.prototype.makeCode) {
+                console.error('QRCode库加载失败或不完整');
+                alert('警告：二维码生成库可能未正确加载，功能可能受限。请刷新页面重试。');
+            } else {
+                console.log('QRCode库加载成功');
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html> 

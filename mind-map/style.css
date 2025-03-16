@@ -1,0 +1,419 @@
+/* 思维导图工具样式 */
+:root {
+    --primary-color: #38A169;
+    --secondary-color: #3182CE;
+    --danger-color: #E53E3E;
+    --warning-color: #ED8936;
+    --purple-color: #8E6CEF;
+    --light-gray: #f5f5f7;
+    --medium-gray: #d2d2d7;
+    --dark-gray: #86868b;
+    --text-color: #1d1d1f;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 2;
+    color: var(--text-color);
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* 渐变标题区域 */
+.gradient-header {
+    background: linear-gradient(135deg, #3474D4 0%, #47B881 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.gradient-header h1 {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.gradient-header .subtitle {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+.navigation {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+    opacity: 0.8;
+}
+
+.back-button svg {
+    margin-right: 0.5rem;
+}
+
+/* 主内容区域 */
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* 两栏布局 */
+.content-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* 左侧思维导图区域 */
+.mindmap-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.canvas-container {
+    padding: 1rem;
+    background-color: white;
+}
+
+.canvas {
+    width: 100%;
+    height: 450px;
+    position: relative;
+    background-color: #fff;
+    background-image: radial-gradient(var(--medium-gray) 1px, transparent 1px);
+    background-size: 20px 20px;
+    border: 2px dashed var(--medium-gray);
+    border-radius: var(--radius-md);
+    overflow: auto;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.canvas.drag-over {
+    border-color: var(--secondary-color);
+    background-color: rgba(49, 130, 206, 0.05);
+}
+
+/* 右侧使用说明区域 */
+.instructions-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+}
+
+.instructions-section h2 {
+    color: var(--text-color);
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.instruction-list {
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.instruction-list li {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.features-list h3 {
+    color: var(--secondary-color);
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.2rem;
+}
+
+.features-list ul {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.features-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* 工具栏 */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.tool-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: white;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tool-button:hover {
+    background-color: var(--light-gray);
+    border-color: var(--dark-gray);
+}
+
+.tool-button svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
+/* 开始指引区域 */
+.start-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--dark-gray);
+    width: 80%;
+}
+
+.select-file {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 1rem 0;
+    transition: background-color 0.2s ease;
+}
+
+.select-file:hover {
+    background-color: #2a6cb0;
+}
+
+.templates {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.template-btn {
+    background-color: white;
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.template-btn:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.template-btn:active {
+    transform: translateY(0);
+}
+
+/* 编辑面板 */
+.edit-panel {
+    width: 300px;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-left: 1px solid var(--medium-gray);
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: 10;
+    box-shadow: var(--shadow-md);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.primary-button, 
+.secondary-button {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+}
+
+.primary-button:hover {
+    background-color: #2a6cb0;
+}
+
+.secondary-button {
+    background-color: white;
+    color: var(--text-color);
+    border: 1px solid var(--medium-gray);
+}
+
+.secondary-button:hover {
+    background-color: var(--light-gray);
+}
+
+/* 节点样式 */
+.node {
+    position: absolute;
+    background-color: white;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    min-width: 100px;
+    max-width: 200px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
+    transition: all 0.2s ease;
+}
+
+.node:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.node.selected {
+    box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.5);
+}
+
+.node.root {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.connector {
+    position: absolute;
+    background-color: var(--secondary-color);
+    z-index: 0;
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+/* 小贴士部分 */
+.tips-section {
+    margin: 3rem 0;
+}
+
+.tips-section h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.tips-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.tip-icon {
+    flex-shrink: 0;
+}
+
+.tip-content h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.tip-content p {
+    margin: 0;
+    color: var(--dark-gray);
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .edit-panel {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-left: none;
+        border-top: 1px solid var(--medium-gray);
+    }
+    
+    .toolbar {
+        justify-content: center;
+    }
+} 

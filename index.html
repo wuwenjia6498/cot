@@ -12,6 +12,53 @@
         <p class="subtitle">实用办公小工具，简化日常事务</p>
     </header>
 
+    <!-- 每日一语条 -->
+    <div class="quote-strip">
+        <div class="quote-strip-content">
+            <div class="quote-icon">
+                <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 22c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c-1.5 0-3-.5-4-1.5L12 34l3.5-8.5C14.5 24.5 14 23.5 14 22z" 
+                          fill="var(--secondary-color)" opacity="0.2"/>
+                    <path d="M14 22c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c-1.5 0-3-.5-4-1.5L12 34l3.5-8.5C14.5 24.5 14 23.5 14 22z" 
+                          stroke="var(--secondary-color)" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="quote-content">
+                <p class="quote-text">生活中不是缺少美，而是缺少发现美的眼睛。</p>
+                <span class="quote-author">— 罗丹</span>
+            </div>
+            <button class="refresh-quote" title="换一条">
+                <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M42 8v14H28M6 40V26h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 14.5C10.5 10.5 14.5 8 19 8c7.5 0 14 6.5 14 14.5M40 33.5c-2.5 4-6.5 6.5-11 6.5-7.5 0-14-6.5-14-14.5" 
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 在每日一语和 main 之间添加待办事项区域 -->
+    <div class="todo-strip">
+        <div class="todo-strip-content">
+            <div class="todo-input-area">
+                <input type="text" id="todo-input" placeholder="添加待办事项..." maxlength="50">
+                <input type="datetime-local" id="todo-deadline" title="设置截止时间">
+                <button class="add-todo">
+                    <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 12v24M12 24h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="todo-list" id="todo-list"></div>
+            <button class="todo-expand" id="todo-expand" style="display: none;">
+                显示更多
+                <svg width="12" height="12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M36 18L24 30L12 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <main>
         <div class="features-grid">
             <!-- 文件格式转换 -->
@@ -30,113 +77,80 @@
 
             <!-- 图片格式转换 -->
             <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="12" y="8" width="24" height="32" rx="2" fill="#2CC1B6"/>
-                        <path d="M20 20l4 4 4-4M20 28l4 4 4-4" stroke="white" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>图片格式转换</h2>
-                <p>JPG、PNG、GIF、WEBP等格式互转，满足各类图片使用场景，让图片处理更加便捷。</p>
+                <a href="image-converter/index.html" class="feature-link">
+                    <div class="icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <rect x="12" y="8" width="24" height="32" rx="2" fill="#2CC1B6"/>
+                            <path d="M20 20l4 4 4-4M20 28l4 4 4-4" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h2>图片格式转换</h2>
+                    <p>JPG、PNG、GIF、WEBP等格式互转，支持添加自定义水印，满足各类图片使用场景，让图片处理更加便捷。</p>
+                </a>
             </div>
 
             <!-- 图片压缩 -->
             <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="8" y="8" width="32" height="32" rx="2" fill="#47B881"/>
-                        <circle cx="18" cy="18" r="4" fill="white"/>
-                        <path d="M14 30l6-6 12 12" stroke="white" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>图片压缩</h2>
-                <p>在保持图片质量的情况下减小文件体积，优化网页加载速度，节省存储空间。</p>
+                <a href="image-compressor/index.html" class="feature-link">
+                    <div class="icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#47B881"/>
+                            <circle cx="18" cy="18" r="4" fill="white"/>
+                            <path d="M14 30l6-6 12 12" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h2>图片压缩</h2>
+                    <p>在保持图片质量的情况下减小文件体积，优化网页加载速度，节省存储空间。</p>
+                </a>
             </div>
 
-            <!-- 待办事项 -->
+            <!-- 在线思维导图 -->
             <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <path d="M12 12h24v24H12z" fill="#F7B500"/>
-                        <path d="M18 24h12M24 18v12" stroke="white" stroke-width="2"/>
-                        <circle cx="24" cy="24" r="16" fill="none" stroke="#F7B500" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>待办事项</h2>
-                <p>条理化管理日常任务，设置优先级和提醒，让工作计划清晰可控，提高工作效率。</p>
-            </div>
-
-            <!-- SVG 编辑器 -->
-            <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="10" y="10" width="28" height="28" rx="2" fill="#FF4F56"/>
-                        <path d="M16 18h16M16 24h12M16 30h8" stroke="white" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>SVG 编辑器</h2>
-                <p>简单易用的矢量图形编辑工具，创建和修改SVG图标，满足网页和UI设计需求。</p>
+                <a href="mind-map/index.html" class="feature-link">
+                    <div class="icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <rect x="10" y="10" width="28" height="28" rx="2" fill="#3182CE"/>
+                            <circle cx="24" cy="18" r="4" fill="white"/>
+                            <circle cx="14" cy="30" r="3" fill="white"/>
+                            <circle cx="24" cy="30" r="3" fill="white"/>
+                            <circle cx="34" cy="30" r="3" fill="white"/>
+                            <path d="M24 22v4M14 27l0-3 10-6M24 27l0-3M34 27l0-3 -10-6" stroke="white" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h2>在线思维导图</h2>
+                    <p>快速创建和分享思维导图，整理思路和知识结构，让头脑风暴和项目规划更加高效直观。</p>
+                </a>
             </div>
 
             <!-- 二维码工具 -->
             <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="12" y="12" width="10" height="10" fill="#8E6CEF"/>
-                        <rect x="26" y="12" width="10" height="10" fill="#8E6CEF"/>
-                        <rect x="12" y="26" width="10" height="10" fill="#8E6CEF"/>
-                        <path d="M26 26h10v10h-10z" fill="none" stroke="#8E6CEF" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>二维码工具</h2>
-                <p>生成和解析二维码，个性化设计，便捷分享文件和链接，提升沟通效率。</p>
-            </div>
-        </div>
-        
-        <div class="section-divider">
-            <h2>每日小助手</h2>
-            <p>提供日常便捷功能</p>
-        </div>
-        
-        <div class="features-grid secondary-features">
-            <!-- 天气预报 -->
-            <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <circle cx="24" cy="24" r="12" fill="#3498DB"/>
-                        <path d="M24 6v6M24 36v6M6 24h6M36 24h6M12 12l4 4M32 32l4 4M12 36l4-4M32 16l4-4" stroke="#F9D71C" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>今日天气</h2>
-                <p>随时查看本地天气情况，获取未来预报，为您的出行和日程安排提供参考。</p>
+                <a href="qrcode/index.html" class="feature-link">
+                    <div class="icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <rect x="12" y="12" width="10" height="10" fill="#3182CE"/>
+                            <rect x="26" y="12" width="10" height="10" fill="#3182CE"/>
+                            <rect x="12" y="26" width="10" height="10" fill="#3182CE"/>
+                            <path d="M26 26h10v10h-10z" fill="none" stroke="#3182CE" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h2>二维码工具</h2>
+                    <p>生成和解析二维码，个性化设计，便捷分享文件和链接，提升沟通效率。</p>
+                </a>
             </div>
 
-            <!-- 每日阅读名言 -->
+            <!-- 随手译 -->
             <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="8" y="12" width="32" height="24" rx="2" fill="#9B59B6"/>
-                        <path d="M16 20h16M16 28h12" stroke="white" stroke-width="2"/>
-                        <path d="M34 18c0-3.3-2.7-6-6-6s-6 2.7-6 6M26 30c0 3.3 2.7 6 6 6s6-2.7 6-6" stroke="white" stroke-width="2"/>
-                    </svg>
-                </div>
-                <h2>每日一语</h2>
-                <p>每天更新励志名言与阅读格言，激发灵感，提升工作学习动力。</p>
-            </div>
-
-            <!-- 待办事项 -->
-            <div class="feature-card">
-                <div class="icon">
-                    <svg width="48" height="48" viewBox="0 0 48 48">
-                        <rect x="10" y="8" width="28" height="32" rx="2" fill="#E67E22"/>
-                        <path d="M16 16h16M16 24h16M16 32h16" stroke="white" stroke-width="2"/>
-                        <rect x="18" y="14" width="4" height="4" rx="1" fill="white"/>
-                        <rect x="18" y="22" width="4" height="4" rx="1" fill="white"/>
-                        <rect x="18" y="30" width="4" height="4" rx="1" fill="white"/>
-                    </svg>
-                </div>
-                <h2>待办清单</h2>
-                <p>条理化管理日常任务，设置优先级和提醒，让工作计划清晰可控。</p>
+                <a href="translator/index.html" class="feature-link">
+                    <div class="icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#1E88E5"/>
+                            <path d="M16 16h8M28 16h4M16 24l6 8h4l6-8M20 20h8" stroke="white" stroke-width="2"/>
+                            <circle cx="24" cy="32" r="2" fill="white"/>
+                        </svg>
+                    </div>
+                    <h2>随手译</h2>
+                    <p>快速翻译各种语言文本，支持多国语言互译，让跨语言交流无障碍。</p>
+                </a>
             </div>
         </div>
     </main>
@@ -145,6 +159,14 @@
         <p>© Copyright 老约翰效率办公桌. Created with ❤️</p>
     </footer>
 
+    <a href="http://localhost:3000/downloads/文件名" target="_blank">备用下载链接</a>
+
+    <form action="http://localhost:3000/api/convert" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上传并下载">
+    </form>
+
+    <!-- 添加脚本引用 -->
     <script src="script.js"></script>
 </body>
 </html> 

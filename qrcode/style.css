@@ -1,0 +1,902 @@
+/* 二维码工具样式 */
+:root {
+    --primary-color: #3182CE;
+    --secondary-color: #47B881;
+    --danger-color: #E53E3E;
+    --warning-color: #ED8936;
+    --success-color: #38A169;
+    --light-gray: #f5f5f7;
+    --medium-gray: #d2d2d7;
+    --dark-gray: #86868b;
+    --text-color: #1d1d1f;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* 渐变标题区域 */
+.gradient-header {
+    background: linear-gradient(135deg, #3474D4 0%, #47B881 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.gradient-header h1 {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.gradient-header .subtitle {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+.navigation {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+    opacity: 0.8;
+}
+
+.back-button svg {
+    margin-right: 0.5rem;
+}
+
+/* 主内容区域 */
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* 两栏布局 */
+.content-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* 二维码工具主体区域 */
+.qrcode-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+/* 标签页切换 */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--medium-gray);
+    background-color: var(--light-gray);
+}
+
+.tab-btn {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    background-color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 表单样式 */
+.qrcode-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    min-height: 100px;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 0.5rem;
+    line-height: 1.4;
+}
+
+/* 文件上传区域 */
+.file-upload {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--light-gray);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-upload-btn:hover {
+    background-color: var(--medium-gray);
+}
+
+.file-upload-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* 按钮样式 */
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.primary-button,
+.secondary-button,
+.action-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.primary-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.primary-button:hover {
+    background-color: #2a6cb0;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.secondary-button {
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    border: 1px solid var(--medium-gray);
+}
+
+.secondary-button:hover {
+    background-color: var(--medium-gray);
+}
+
+.action-button {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+.action-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* 二维码生成结果区域 */
+.qrcode-result {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--dark-gray);
+}
+
+.empty-icon {
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+#qrcode-display {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+#qrcode-display canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* 增强下载按钮样式 */
+.result-actions .action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius-sm);
+    min-width: 120px;
+    position: relative;
+}
+
+.result-actions .action-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.result-actions .action-button:active {
+    transform: translateY(0);
+}
+
+.result-actions .action-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    border-color: var(--medium-gray);
+    transform: none;
+    box-shadow: none;
+}
+
+/* 直接下载链接 */
+.direct-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--medium-gray);
+}
+
+.direct-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.direct-link:active {
+    transform: translateY(0);
+}
+
+/* 手动下载提示 */
+.manual-download-tips {
+    margin-top: 1rem;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 高亮提示（用于引导用户点击） */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(49, 130, 206, 0.4); }
+    70% { box-shadow: 0 0 0 5px rgba(49, 130, 206, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(49, 130, 206, 0); }
+}
+
+.highlight-element {
+    animation: pulse 1.5s infinite;
+}
+
+/* 解析二维码区域 */
+.upload-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    border: 2px dashed var(--medium-gray);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    transition: all 0.2s ease;
+}
+
+.upload-wrapper:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(49, 130, 206, 0.05);
+}
+
+.upload-wrapper svg {
+    margin-bottom: 1rem;
+    stroke: var(--primary-color);
+    opacity: 0.7;
+}
+
+.upload-wrapper p {
+    margin-bottom: 1rem;
+}
+
+.video-scan-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#camera-container {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#camera-preview {
+    width: 100%;
+    max-height: 250px;
+    border-radius: var(--radius-md);
+    background-color: #000;
+}
+
+#close-camera {
+    margin-top: 1rem;
+}
+
+/* 扫描结果区域 */
+.scan-result {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+}
+
+.scan-result h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.result-content {
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+.result-type {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+}
+
+/* 使用说明区域 */
+.instructions-section {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+}
+
+.instructions-section h2 {
+    color: var(--text-color);
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.instructions-section h3 {
+    color: var(--primary-color);
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.2rem;
+}
+
+.instruction-list {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.instruction-list li {
+    margin-bottom: 0.5rem;
+}
+
+.features-list ul {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.features-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* 小贴士部分 */
+.tips-section {
+    margin: 3rem 0;
+}
+
+.tips-section h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tips-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.tip-icon {
+    flex-shrink: 0;
+}
+
+.tip-content h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.tip-content p {
+    margin: 0;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+}
+
+/* 页脚 */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .upload-area {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-row .form-group {
+        margin-bottom: 0;
+    }
+    
+    .qrcode-form {
+        padding: 0;
+    }
+    
+    .gradient-header h1 {
+        font-size: 2rem;
+    }
+    
+    .gradient-header .subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .tab-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .result-actions button {
+        width: 100%;
+    }
+}
+
+/* 颜色选择器增强 */
+.color-selector input[type="color"] {
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.color-selector small {
+    font-weight: normal;
+    color: var(--dark-gray);
+    font-size: 0.8rem;
+}
+
+.color-preview-container {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.color-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid var(--medium-gray);
+    margin-right: 8px;
+}
+
+/* 导出区域样式 */
+#export-area {
+    background-color: white;
+    border-radius: var(--radius-md);
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--medium-gray);
+}
+
+#export-area h3 {
+    margin-top: 0;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.exportable-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+}
+
+.exportable-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exportable-image:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-md);
+}
+
+.export-info {
+    margin-top: 1.5rem;
+}
+
+.export-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+#download-image-link,
+#copy-image-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+#download-image-link:hover,
+#copy-image-btn:hover {
+    background-color: #2a6cb0;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#download-image-link:active,
+#copy-image-btn:active {
+    transform: translateY(0);
+}
+
+.export-tips {
+    background-color: #f8f9fa;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+    text-align: left;
+    border: 1px solid var(--medium-gray);
+}
+
+.export-tips h4 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.export-tips ol {
+    margin-left: 1.5rem;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.export-tips li {
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray);
+}
+
+.export-tips li:last-child {
+    margin-bottom: 0;
+}
+
+/* 备用下载链接 */
+#backup-download-links {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--medium-gray);
+}
+
+.backup-link {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 1px solid var(--medium-gray);
+}
+
+.backup-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.backup-link:active {
+    transform: translateY(0);
+}
+
+/* 下载按钮特殊样式 */
+.download-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.download-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s ease;
+    z-index: 1;
+}
+
+.download-button:hover::after {
+    transform: scaleX(1);
+}
+
+.download-button svg,
+.download-button span {
+    position: relative;
+    z-index: 2;
+}
+
+.download-button:active {
+    transform: scale(0.98);
+}
+
+/* 改进的导出区域 */
+.exportable-container {
+    padding: 1.5rem;
+    background-color: var(--light-gray);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    border: 2px dashed transparent;
+}
+
+.exportable-container:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(49, 130, 206, 0.05);
+}
+
+/* 灯箱查看器样式 */
+#image-lightbox {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+#image-lightbox[style*="display: flex"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+#lightbox-image {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+#image-lightbox[style*="display: flex"] #lightbox-image {
+    transform: scale(1);
+}
+
+#close-lightbox {
+    transition: all 0.2s;
+}
+
+#close-lightbox:hover {
+    background-color: #f2f2f2;
+}
+
+#lightbox-download {
+    transition: all 0.2s;
+}
+
+#lightbox-download:hover {
+    background-color: #2a6cb0;
+    transform: translateY(-2px);
+} 

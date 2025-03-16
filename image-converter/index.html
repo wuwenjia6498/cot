@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片格式转换 - 老约翰效率办公桌</title>
+    <link rel="stylesheet" href="image-converter.css">
+    <style>
+        /* 内联基本样式，确保内容可见 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* 页面头部样式 */
+        header {
+            text-align: center;
+            padding: 3rem 1rem; /* 减小左右内边距 */
+            background: linear-gradient(135deg, #3474D4 0%, #47B881 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;            /* 使用flex布局 */
+            align-items: center;      /* 垂直居中对齐 */
+            justify-content: center;  /* 水平居中对齐 */
+            gap: 1rem;               /* 子元素间距 */
+            max-width: 1200px;       /* 最大宽度限制 */
+            margin: 0 auto;          /* 水平居中定位 */
+            position: relative;       /* 相对定位,用于返回链接的绝对定位参考 */
+            flex-direction: column;   /* 子元素垂直排列 */
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: absolute;
+            left: 0;               /* 移到最左侧 */
+            top: -1.5rem;          /* 向上移动一点 */
+            padding-left: 0.3rem;  /* 给图标一点内边距，不至于完全贴边 */
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        /* 添加标题描述文字样式 */
+        .header-description {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        /* 服务器提示样式 */
+        .server-tip {
+            background-color: #fcf8e3;
+            border: 1px solid #faebcc;
+            color: #8a6d3b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .server-tip h3 {
+            margin-top: 0;
+            color: #8a6d3b;
+        }
+        
+        .server-tip .close-tip {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #8a6d3b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="../index.html" class="back-link">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                返回首页
+            </a>
+            <h1>图片格式转换</h1>
+            <p class="header-description">快速转换各种图片格式，支持添加水印，提高图像处理效率</p>
+        </div>
+    </header>
+
+    <main class="converter-container">
+        <section class="converter-box">
+            <!-- 服务器提示 -->
+            <div id="server-tip" class="server-tip">
+                <button class="close-tip">&times;</button>
+                <h3>提示：需要启动后端服务器</h3>
+                <p>使用图片转换功能需要先启动后端服务器，请按照以下步骤操作：</p>
+                <ol>
+                    <li>在电脑上打开命令行窗口</li>
+                    <li>切换到backend目录: <code>cd backend</code></li>
+                    <li>运行服务器启动脚本: <code>python start_server.py</code></li>
+                    <li>保持命令行窗口打开，然后刷新本页面</li>
+                </ol>
+                <p>如果遇到问题，可以<a href="debug.html" style="color: #8a6d3b; text-decoration: underline;">打开调试页面</a>获取帮助。</p>
+            </div>
+
+            <div id="upload-area" class="upload-area">
+                <input type="file" id="file-input" accept="image/*" multiple>
+                <div class="upload-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4v12M8 8l4-4 4 4M8 18h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>点击或拖放图片文件到这里</h3>
+                <p>支持JPG、PNG、GIF、BMP、WEBP等格式</p>
+            </div>
+
+            <div id="file-info" class="file-info hidden">
+                <h3>已选择的图片</h3>
+                <div id="selected-images" class="selected-images">
+                    <!-- 动态添加的图片预览 -->
+                </div>
+                <button id="remove-files" class="action-button danger">移除所有</button>
+            </div>
+
+            <div id="conversion-options" class="conversion-options hidden">
+                <h3>选择目标格式</h3>
+                <div class="format-options">
+                    <label class="format-option">
+                        <input type="radio" name="target-format" value="jpg" checked>
+                        <span class="format-name">JPG</span>
+                    </label>
+                    <label class="format-option">
+                        <input type="radio" name="target-format" value="png">
+                        <span class="format-name">PNG</span>
+                    </label>
+                    <label class="format-option">
+                        <input type="radio" name="target-format" value="webp">
+                        <span class="format-name">WEBP</span>
+                    </label>
+                    <label class="format-option">
+                        <input type="radio" name="target-format" value="gif">
+                        <span class="format-name">GIF</span>
+                    </label>
+                    <label class="format-option">
+                        <input type="radio" name="target-format" value="bmp">
+                        <span class="format-name">BMP</span>
+                    </label>
+                </div>
+
+                <div class="quality-option">
+                    <label for="image-quality">图片质量</label>
+                    <input type="range" id="image-quality" min="50" max="100" value="85">
+                    <span id="quality-value">85%</span>
+                </div>
+
+                <!-- 水印设置区域 -->
+                <div class="watermark-settings" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                    <h3 style="margin-bottom: 15px;">水印设置</h3>
+                    
+                    <!-- 水印文字输入 -->
+                    <div class="form-group">
+                        <label for="watermark-text">水印文字（支持多行）:</label>
+                        <textarea id="watermark-text" class="form-control" rows="3" 
+                                placeholder="输入水印文字，使用回车换行" 
+                                style="resize: vertical; min-height: 80px;"></textarea>
+                    </div>
+
+                    <!-- 水印位置选择 -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>水印位置:</label>
+                        <div class="position-options" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name="watermark-position" value="topLeft"> 左上
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name="watermark-position" value="topRight"> 右上
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name="watermark-position" value="center"> 中心
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name="watermark-position" value="bottomLeft"> 左下
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                                <input type="radio" name="watermark-position" value="bottomRight" checked> 右下
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 水印透明度 -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="watermark-opacity">透明度: <span id="opacity-value">50%</span></label>
+                        <input type="range" class="form-control-range" id="watermark-opacity" 
+                               min="0" max="100" value="50">
+                    </div>
+
+                    <!-- 水印旋转角度 -->
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label for="watermark-rotation">旋转角度: <span id="rotation-value">0°</span></label>
+                        <input type="range" class="form-control-range" id="watermark-rotation" 
+                               min="0" max="360" value="0">
+                    </div>
+                </div>
+
+                <button id="convert-button" class="action-button primary">开始转换</button>
+            </div>
+
+            <div id="conversion-progress" class="conversion-progress hidden">
+                <h3>正在转换图片...</h3>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="progress-text">0%</p>
+            </div>
+
+            <div id="conversion-result" class="conversion-result hidden">
+                <div class="result-icon success">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 12l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>转换完成！</h3>
+                <div id="result-files" class="result-files">
+                    <!-- 动态添加的结果文件 -->
+                </div>
+                <div class="result-actions">
+                    <button id="download-all-button" class="action-button primary">下载全部</button>
+                    <button id="convert-new-button" class="action-button secondary">转换新图片</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section">
+            <div class="info-card">
+                <h3>图片格式转换使用说明</h3>
+                <ul>
+                    <li><strong>上传图片：</strong>点击上传区域或将图片拖放到方框内。</li>
+                    <li><strong>选择格式：</strong>选择您想要的目标图片格式。</li>
+                    <li><strong>调整质量：</strong>移动滑块来调整输出图片的质量。</li>
+                    <li><strong>添加水印：</strong>可以输入文字作为水印，并调整位置和透明度。</li>
+                    <li><strong>开始转换：</strong>点击"开始转换"按钮。</li>
+                    <li><strong>下载图片：</strong>转换完成后，点击"下载全部"按钮。</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3>图片格式选择指南</h3>
+                <ul>
+                    <li><strong>JPG</strong>：适用于照片和色彩丰富的图像，文件较小。</li>
+                    <li><strong>PNG</strong>：支持透明背景，适合图标和需要高质量的图像。</li>
+                    <li><strong>WEBP</strong>：谷歌开发的现代格式，同时支持有损和无损压缩，文件小。</li>
+                    <li><strong>GIF</strong>：支持简单动画，色彩有限，适合简单图形。</li>
+                    <li><strong>BMP</strong>：未压缩的图像格式，文件较大但无损失。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© Copyright 老约翰效率办公桌. Created with ❤️</p>
+    </footer>
+
+    <script src="image-converter.js"></script>
+    <script>
+        // 检查本地存储是否已关闭提示
+        document.addEventListener('DOMContentLoaded', function() {
+            const serverTip = document.getElementById('server-tip');
+            const closeTipBtn = serverTip.querySelector('.close-tip');
+            
+            // 如果之前关闭过提示，则不显示
+            if (localStorage.getItem('serverTipClosed') === 'true') {
+                serverTip.style.display = 'none';
+            }
+            
+            // 关闭提示
+            closeTipBtn.addEventListener('click', function() {
+                serverTip.style.display = 'none';
+                localStorage.setItem('serverTipClosed', 'true');
+            });
+            
+            // 检测服务器是否可用
+            fetch('http://localhost:5000/api/image/status/test')
+                .then(response => {
+                    if (response.status === 404) {
+                        // 服务器已启动，隐藏提示
+                        serverTip.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    // 服务器可能未启动，显示提示
+                    console.log('服务器检测错误:', error);
+                    serverTip.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html> 
