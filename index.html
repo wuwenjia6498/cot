@@ -3,156 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>老约翰效率办公桌 - 实用办公小工具</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>文件格式转换 - 老约翰效率办公桌</title>
+    <style>
+        /* 内联基本样式，确保内容可见 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #3474D4 0%, #47B881 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: absolute;
+            left: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .converter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .converter-box {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .upload-area {
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-area.hidden {
+            display: none !important;
+        }
+        
+        .upload-icon {
+            color: #4A90E2;
+            margin-bottom: 1rem;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #4A90E2;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .button.secondary-button {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .info-section {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .selected-file-info {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+        
+        .selected-file-info.hidden {
+            display: none !important;
+        }
+        
+        .conversion-options {
+            display: block !important;
+            margin: 1rem 0;
+        }
+        
+        .conversion-options.hidden {
+            display: none !important;
+        }
+        
+        .conversion-progress {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .progress-indicator {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            height: 20px;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            background-color: #4A90E2;
+            border-radius: 8px;
+            height: 100%;
+        }
+        
+        .progress-fill {
+            height: 100%;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .conversion-result {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .result-icon {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-icon.success {
+            color: #10B981;
+        }
+        
+        .result-icon.error {
+            color: #EF4444;
+        }
+        
+        .converted-file-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .action-buttons {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+        
+        @media (min-width: 768px) {
+            .converter-container {
+                flex-direction: row;
+            }
+            
+            .converter-box {
+                flex: 2;
+            }
+            
+            .info-section {
+                flex: 1;
+            }
+        }
+    </style>
+    <!-- 引入外部样式表 -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="file-converter.css">
 </head>
 <body>
     <header>
-        <h1>老约翰效率办公桌</h1>
-        <p class="subtitle">实用办公小工具，简化日常事务</p>
+        <div class="header-container">
+            <a href="../index.html" class="back-link">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                返回主页
+            </a>
+            <h1>文件格式转换</h1>
+        </div>
+        <p class="subtitle">轻松将文档转换为不同格式，满足多样化办公需求</p>
     </header>
 
-    <!-- 每日一语条 -->
-    <div class="quote-strip">
-        <div class="quote-strip-content">
-            <div class="quote-icon">
-                <svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 22c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c-1.5 0-3-.5-4-1.5L12 34l3.5-8.5C14.5 24.5 14 23.5 14 22z" 
-                          fill="var(--secondary-color)" opacity="0.2"/>
-                    <path d="M14 22c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c-1.5 0-3-.5-4-1.5L12 34l3.5-8.5C14.5 24.5 14 23.5 14 22z" 
-                          stroke="var(--secondary-color)" stroke-width="2"/>
-                </svg>
-            </div>
-            <div class="quote-content">
-                <p class="quote-text">生活中不是缺少美，而是缺少发现美的眼睛。</p>
-                <span class="quote-author">— 罗丹</span>
-            </div>
-            <button class="refresh-quote" title="换一条">
-                <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M42 8v14H28M6 40V26h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 14.5C10.5 10.5 14.5 8 19 8c7.5 0 14 6.5 14 14.5M40 33.5c-2.5 4-6.5 6.5-11 6.5-7.5 0-14-6.5-14-14.5" 
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-    </div>
+    <main>
+        <div class="converter-container">
+            <div class="converter-box">
+                <div class="upload-area" id="upload-area">
+                    <h3>拖放文件到这里</h3>
+                    <p>或者</p>
+                    <label for="file-input" class="button">选择文件</label>
+                    <input type="file" id="file-input" style="display:none;">
+                    <p>支持: DOCX, PDF, XLSX, TXT</p>
+                </div>
+                
+                <div class="selected-file-info hidden" id="file-info">
+                    <div>
+                        <p id="file-name">文件名</p>
+                        <p id="file-size">文件大小</p>
+                    </div>
+                    <button class="button secondary-button" id="remove-file">删除</button>
+                </div>
 
-    <!-- 在每日一语和 main 之间添加待办事项区域 -->
-    <div class="todo-strip">
-        <div class="todo-strip-content">
-            <div class="todo-input-area">
-                <input type="text" id="todo-input" placeholder="添加待办事项..." maxlength="50">
-                <input type="datetime-local" id="todo-deadline" title="设置截止时间">
-                <button class="add-todo">
-                    <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 12v24M12 24h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
+                <div class="conversion-options hidden" id="conversion-options">
+                    <label for="target-format">转换为:</label>
+                    <select id="target-format">
+                        <option value="pdf">PDF</option>
+                        <option value="docx">DOCX</option>
+                        <option value="txt">TXT</option>
+                    </select>
+                    <button class="button" id="convert-button">开始转换</button>
+                </div>
+                
+                <div class="conversion-progress hidden" id="conversion-progress">
+                    <div class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <p id="progress-text">正在转换... 0%</p>
+                    </div>
+                </div>
+                
+                <div class="conversion-result hidden" id="conversion-result">
+                    <div class="result-icon success">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 4L12 14.01L9 11.01" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>转换成功！</h3>
+                    <div class="converted-file-info">
+                        <p id="converted-file-name">converted-file.docx</p>
+                        <p id="converted-file-size">1.2MB</p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="button primary-button" id="download-button">下载文件</button>
+                        <button class="button secondary-button" id="convert-new-button">转换新文件</button>
+                    </div>
+                </div>
             </div>
             
-            <div class="todo-list" id="todo-list"></div>
-            <button class="todo-expand" id="todo-expand" style="display: none;">
-                显示更多
-                <svg width="12" height="12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M36 18L24 30L12 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <main>
-        <div class="features-grid">
-            <!-- 调整图片尺寸 (新增) -->
-            <div class="feature-card">
-                <a href="image-resizer/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#F59E0B"/>
-                            <path d="M14 20h4v-4h4M14 28h4v4h4M34 20h-4v-4h-4M34 28h-4v4h-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <rect x="18" y="18" width="12" height="12" rx="1" fill="#F59E0B" stroke="white" stroke-width="2"/>
-                        </svg>
+            <div class="info-section">
+                <h2>使用说明</h2>
+                <ol>
+                    <li>上传您想要转换的文件</li>
+                    <li>选择目标格式</li>
+                    <li>点击"开始转换"按钮</li>
+                    <li>等待转换完成后下载结果</li>
+                </ol>
+                
+                <h2>支持的转换类型</h2>
+                <div class="format-list">
+                    <div class="format-category">
+                        <h3>文档格式</h3>
+                        <ul>
+                            <li>PDF → DOCX, TXT, RTF</li>
+                            <li>DOCX → PDF, TXT, RTF</li>
+                            <li>TXT → PDF, DOCX, RTF</li>
+                            <li>RTF → PDF, DOCX, TXT</li>
+                        </ul>
                     </div>
-                    <h2>调整图片尺寸</h2>
-                    <p>轻松缩放图片大小，批量处理多张图片，适应各种场景需求，让图片完美匹配您的使用场景。</p>
-                </a>
-            </div>
-
-            <!-- 图片格式转换 -->
-            <div class="feature-card">
-                <a href="image-converter/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="12" y="8" width="24" height="32" rx="2" fill="#2CC1B6"/>
-                            <path d="M20 20l4 4 4-4M20 28l4 4 4-4" stroke="white" stroke-width="2"/>
-                        </svg>
+                    
+                    <div class="format-category">
+                        <h3>表格格式</h3>
+                        <ul>
+                            <li>XLSX → PDF, CSV</li>
+                            <li>CSV → XLSX, PDF</li>
+                        </ul>
                     </div>
-                    <h2>图片格式转换</h2>
-                    <p>JPG、PNG、GIF、WEBP等格式互转，支持添加自定义水印，满足各类图片使用场景，让图片处理更加便捷。</p>
-                </a>
-            </div>
-
-            <!-- 图片压缩 -->
-            <div class="feature-card">
-                <a href="image-compressor/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#47B881"/>
-                            <circle cx="18" cy="18" r="4" fill="white"/>
-                            <path d="M14 30l6-6 12 12" stroke="white" stroke-width="2"/>
-                        </svg>
+                    
+                    <div class="format-category">
+                        <h3>演示格式</h3>
+                        <ul>
+                            <li>PPTX → PDF</li>
+                        </ul>
                     </div>
-                    <h2>图片压缩</h2>
-                    <p>在保持图片质量的情况下减小文件体积，优化网页加载速度，节省存储空间。</p>
-                </a>
-            </div>
-
-            <!-- 在线思维导图 -->
-            <div class="feature-card">
-                <a href="mind-map/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="10" y="10" width="28" height="28" rx="2" fill="#3182CE"/>
-                            <circle cx="24" cy="18" r="4" fill="white"/>
-                            <circle cx="14" cy="30" r="3" fill="white"/>
-                            <circle cx="24" cy="30" r="3" fill="white"/>
-                            <circle cx="34" cy="30" r="3" fill="white"/>
-                            <path d="M24 22v4M14 27l0-3 10-6M24 27l0-3M34 27l0-3 -10-6" stroke="white" stroke-width="1.5"/>
-                        </svg>
-                    </div>
-                    <h2>在线思维导图</h2>
-                    <p>快速创建和分享思维导图，整理思路和知识结构，让头脑风暴和项目规划更加高效直观。</p>
-                </a>
-            </div>
-
-            <!-- 二维码工具 -->
-            <div class="feature-card">
-                <a href="qrcode/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="12" y="12" width="10" height="10" fill="#3182CE"/>
-                            <rect x="26" y="12" width="10" height="10" fill="#3182CE"/>
-                            <rect x="12" y="26" width="10" height="10" fill="#3182CE"/>
-                            <path d="M26 26h10v10h-10z" fill="none" stroke="#3182CE" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h2>二维码工具</h2>
-                    <p>生成和解析二维码，个性化设计，便捷分享文件和链接，提升沟通效率。</p>
-                </a>
-            </div>
-
-            <!-- 随手译 -->
-            <div class="feature-card">
-                <a href="translator/index.html" class="feature-link">
-                    <div class="icon">
-                        <svg width="48" height="48" viewBox="0 0 48 48">
-                            <rect x="8" y="8" width="32" height="32" rx="2" fill="#1E88E5"/>
-                            <path d="M16 16h8M28 16h4M16 24l6 8h4l6-8M20 20h8" stroke="white" stroke-width="2"/>
-                            <circle cx="24" cy="32" r="2" fill="white"/>
-                        </svg>
-                    </div>
-                    <h2>随手译</h2>
-                    <p>快速翻译各种语言文本，支持多国语言互译，让跨语言交流无障碍。</p>
-                </a>
+                </div>
+                
+                <div class="notice-box">
+                    <h3>注意事项</h3>
+                    <ul>
+                        <li>文件大小限制：50MB</li>
+                        <li>转换过程中请勿关闭页面</li>
+                        <li>文件内容和格式在转换过程中可能会有细微变化</li>
+                        <li>所有文件在转换完成后24小时内自动删除</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
@@ -161,7 +355,16 @@
         <p>© Copyright 老约翰效率办公桌. Created with ❤️</p>
     </footer>
 
-    <!-- 添加脚本引用 -->
-    <script src="./script.js"></script>
+    <script>
+        // 简单检测页面元素是否存在
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，检查核心元素');
+            console.log('上传区域:', !!document.getElementById('upload-area'));
+            console.log('文件输入:', !!document.getElementById('file-input'));
+            console.log('文件信息:', !!document.getElementById('file-info'));
+            console.log('转换选项:', !!document.getElementById('conversion-options'));
+        });
+    </script>
+    <script src="file-converter.js"></script>
 </body>
 </html> 
